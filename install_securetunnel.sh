@@ -120,7 +120,8 @@ while [ -d "${dir}" ]; do
 done
 
 echo -e "${Font_Yellow} ** Checking release info...${Font_Suffix}"
-ver=$(curl -sL "${mirror}/api/latest?repo=PortForwardGo")
+# ver=$(curl -sL "${mirror}/api/latest?repo=PortForwardGo")
+ver="1.1.4"
 if [ -z "${ver}" ]; then
     echo -e "${Font_Red}Unable to get releases info${Font_Suffix}"
     exit 1
@@ -160,7 +161,36 @@ rm -rf /tmp/*
 
 echo -e "${Font_Yellow} ** Optimize system config...${Font_Suffix}"
 
-echo -e "${Font_Yellow} ** Nothing to do!${Font_Suffix}"
+echo "net.ipv4.ip_local_port_range = 1024 65535" >/etc/sysctl.d/97-system-port-range.conf
+echo -e "${Font_Green}已修改系统对外连接占用端口为 1024-65535, 配置文件 /etc/sysctl.d/97-system-port-range.conf${Font_Suffix}"
+
+echo "fs.file-max = 1000000
+fs.inotify.max_user_instances = 8192
+fs.pipe-max-size = 1048576
+fs.pipe-user-pages-hard = 0
+fs.pipe-user-pages-soft = 0
+
+net.core.netdev_max_backlog = 16384
+net.core.netdev_budget = 600
+net.core.somaxconn = 3276800
+net.core.default_qdisc = fq
+" > /etc/sysctl.d/98-optimize.conf
+echo -e "${Font_Green}已开启BBR和系统调优, 配置文件 /etc/sysctl.d/98-optimize.conf${Font_Suffix}"
+
+echo "* soft nofile 1048576
+* hard nofile 1048576
+* soft nproc 1048576
+* hard nproc 1048576
+* soft core 1048576
+* hard core 1048576
+* hard memlock unlimited
+* soft memlock unlimited" > /etc/security/limits.conf
+echo -e "${Font_Green}已解除系统ulimit限制, 配置文件 /etc/security/limits.conf${Font_Suffix}"
+
+echo -e "${Font_Green}应用新的系统配置...${Font_Suffix}"
+sysctl -p > /dev/null 2>&1
+sysctl --system > /dev/null 2>&1
+echo -e "${Font_Green}优化完成, 部分优化可能需要重启系统才能生效${Font_Suffix}"
 
 echo -e "${Font_Yellow} ** Starting program...${Font_Suffix}"
 systemctl daemon-reload
