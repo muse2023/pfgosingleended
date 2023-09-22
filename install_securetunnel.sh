@@ -121,7 +121,7 @@ done
 
 echo -e "${Font_Yellow} ** Checking release info...${Font_Suffix}"
 # ver=$(curl -sL "${mirror}/api/latest?repo=PortForwardGo")
-ver="1.1.4"
+ver="1.1.5"
 if [ -z "${ver}" ]; then
     echo -e "${Font_Red}Unable to get releases info${Font_Suffix}"
     exit 1
