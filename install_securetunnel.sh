@@ -165,16 +165,6 @@ echo "net.ipv4.ip_local_port_range = 1024 65535" >/etc/sysctl.d/97-system-port-r
 echo -e "${Font_Green}已修改系统对外连接占用端口为 1024-65535, 配置文件 /etc/sysctl.d/97-system-port-range.conf${Font_Suffix}"
 
 
-echo "* soft nofile 1048576
-* hard nofile 1048576
-* soft nproc 1048576
-* hard nproc 1048576
-* soft core 1048576
-* hard core 1048576
-* hard memlock unlimited
-* soft memlock unlimited" > /etc/security/limits.conf
-echo -e "${Font_Green}已解除系统ulimit限制, 配置文件 /etc/security/limits.conf${Font_Suffix}"
-
 echo -e "${Font_Green}应用新的系统配置...${Font_Suffix}"
 sysctl -p > /dev/null 2>&1
 sysctl --system > /dev/null 2>&1
