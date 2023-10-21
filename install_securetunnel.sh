@@ -161,15 +161,6 @@ rm -rf /tmp/*
 
 echo -e "${Font_Yellow} ** Optimize system config...${Font_Suffix}"
 
-echo "net.ipv4.ip_local_port_range = 1024 65535" >/etc/sysctl.d/97-system-port-range.conf
-echo -e "${Font_Green}已修改系统对外连接占用端口为 1024-65535, 配置文件 /etc/sysctl.d/97-system-port-range.conf${Font_Suffix}"
-
-
-echo -e "${Font_Green}应用新的系统配置...${Font_Suffix}"
-sysctl -p > /dev/null 2>&1
-sysctl --system > /dev/null 2>&1
-echo -e "${Font_Green}优化完成, 部分优化可能需要重启系统才能生效${Font_Suffix}"
-
 echo -e "${Font_Yellow} ** Starting program...${Font_Suffix}"
 systemctl daemon-reload
 systemctl enable --now ${service_name}
