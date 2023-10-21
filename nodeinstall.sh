@@ -224,13 +224,6 @@ rm -rf /tmp/*
 
 echo -e "${Font_Yellow} ** Optimize system config...${Font_Suffix}"
 
-if [[ -z "${listen}" ]]; then
-    echo "net.ipv4.ip_local_port_range = 60000 65535" >/etc/sysctl.d/97-system-port-range.conf
-    echo -e "${Font_Green}已修改系统对外连接占用端口为 60000-65535, 配置文件 /etc/sysctl.d/97-system-port-range.conf${Font_Suffix}"
-else
-    echo "net.ipv4.ip_local_port_range = 1024 65535" >/etc/sysctl.d/97-system-port-range.conf
-    echo -e "${Font_Green}已修改系统对外连接占用端口为 1024-65535, 配置文件 /etc/sysctl.d/97-system-port-range.conf${Font_Suffix}"
-fi
 
 echo -e "${Font_Yellow} ** Starting program...${Font_Suffix}"
 systemctl daemon-reload
